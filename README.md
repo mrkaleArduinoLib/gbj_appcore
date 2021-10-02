@@ -88,7 +88,7 @@ The method sets the internal status of recent processing to input value.
 - Without input parameter the method sets success internal status with result constant [gbj\_appcore::SUCCESS](#results).
 
 #### Syntax
-    ResultCodes setLastResult(ResultCodes lastResult);
+    ResultCodes setLastResult(ResultCodes lastResult)
 
 #### Parameters
 - **lastResult**: Desired result code that should be set as a last result code.
@@ -112,7 +112,7 @@ New (actual) result code of the recent operation.
 The method returns a result or error code of the recent operation. It is usually called for error handling in a sketch.
 
 #### Syntax
-    ResultCodes getLastResult();
+    ResultCodes getLastResult()
 
 #### Parameters
 None
@@ -134,7 +134,7 @@ Some of [result or error codes](#results).
 The method returns a flag whether the recent operation was successful.
 
 #### Syntax
-    boolean isSuccess();
+    boolean isSuccess()
 
 #### Parameters
 None
@@ -156,7 +156,7 @@ Flag about successful processing of the recent operation.
 The method returns a flag whether the recent operation failed. The corresponding error code can be obtained by the method [getLastResult()]((#getLastResult).
 
 #### Syntax
-    boolean isError();
+    boolean isError()
 
 #### Parameters
 None
