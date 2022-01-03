@@ -45,8 +45,10 @@ public:
     ERROR_UKNOWN, // Not recognized error
     ERROR_NOINIT, // Not initialized yet
     ERROR_NODEVICE, // No device detected
+    ERROR_PINS, // Wrong pin configuration
     ERROR_ADDR, // Wrong address
     ERROR_DATA, // Wrong data
+    ERROR_ACK, // Acknowledge failed
     ERROR_CONNECT, // Connection failed
     ERROR_PUBLISH, // Publishing failed
     ERROR_SUBSCRIBE, // Subsribing failed
