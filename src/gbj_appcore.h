@@ -45,7 +45,7 @@ public:
   enum ResultCodes : byte
   {
     SUCCESS, // It should be always the first with index 0
-    ERROR_UKNOWN, // Not recognized error
+    ERROR_UNKNOWN, // Not recognized error
     ERROR_NOINIT, // Not initialized yet
     ERROR_NODEVICE, // No device detected
     ERROR_PINS, // Wrong pin configuration
@@ -55,8 +55,8 @@ public:
     ERROR_CONNECT, // Connection failed
     ERROR_PUBLISH, // Publishing failed
     ERROR_SUBSCRIBE, // Subsribing failed
-    BOOT_DEFAULT_RST, // Normal startup by power on
     BOOT_UNKNOWN, // Reset reason not detected or unknown
+    BOOT_DEFAULT_RST, // Normal startup by power on
     BOOT_WDT_RST, // Hardware watch dog reset
     BOOT_EXCEPTION_RST, // Exception reset
     BOOT_SOFT_WDT_RST, // Software watch dog reset
