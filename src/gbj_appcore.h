@@ -24,17 +24,15 @@
 #if defined(__AVR__)
   #include <Arduino.h>
   #include <inttypes.h>
-#elif defined(ESP8266)
+#elif defined(ESP8266) || defined(ESP32)
   #include <Arduino.h>
-#elif defined(ESP32)
-  #include <Arduino.h>
+extern "C"
+{
+  #include "user_interface.h"
+}
 #elif defined(PARTICLE)
   #include <Particle.h>
 #endif
-extern "C"
-{
-#include "user_interface.h"
-}
 
 class gbj_appcore
 {
@@ -57,13 +55,14 @@ public:
     ERROR_CONNECT, // Connection failed
     ERROR_PUBLISH, // Publishing failed
     ERROR_SUBSCRIBE, // Subsribing failed
-    ERROR_BOOT_DEFAULT_RST, // Normal startup by power on
-    ERROR_BOOT_WDT_RST, // Hardware watch dog reset
-    ERROR_BOOT_EXCEPTION_RST, // Exception reset
-    ERROR_BOOT_SOFT_WDT_RST, // Software watch dog reset
-    ERROR_BOOT_SOFT_RESTART, // Software restart, system_restart
-    ERROR_BOOT_DEEP_SLEEP_AWAKE, // Wake up from deep-sleep
-    ERROR_BOOT_EXT_SYS_RST, // External system reset (assertion of reset pin)
+    BOOT_DEFAULT_RST, // Normal startup by power on
+    BOOT_UNKNOWN, // Reset reason not detected or unknown
+    BOOT_WDT_RST, // Hardware watch dog reset
+    BOOT_EXCEPTION_RST, // Exception reset
+    BOOT_SOFT_WDT_RST, // Software watch dog reset
+    BOOT_SOFT_RESTART, // Software restart, system restart
+    BOOT_DEEP_SLEEP_AWAKE, // Wake up from deep-sleep
+    BOOT_EXT_SYS_RST, // External system reset (assertion of reset pin)
   };
 
   /*
@@ -77,7 +76,8 @@ public:
       - Data type: float
       - Default value: none
       - Limited range: real numbers
-    prec - Precision, i.e., number of requested decimal places for a rounded value.
+    prec - Precision, i.e., number of requested decimal places for a rounded
+    value.
       - Data type: byte
       - Default value: none
       - Limited range: 0 ~ 255
@@ -87,7 +87,8 @@ public:
   inline float roundoff(float value, byte prec)
   {
     float pow_10 = pow(10.0f, (float)prec);
-    return round(value * pow_10) / pow_10; }
+    return round(value * pow_10) / pow_10;
+  }
 
   // Setters
   inline ResultCodes setLastResult(
@@ -96,6 +97,7 @@ public:
     return _lastResult = lastResult;
   };
 
+  // Getters
   /*
     Reset reason.
 
@@ -108,38 +110,40 @@ public:
   */
   inline ResultCodes getResetReason()
   {
-    setLastResult(ResultCodes::ERROR_UKNOWN);
+    setLastResult(ResultCodes::BOOT_UNKNOWN);
+#if defined(ESP8266) || defined(ESP32)
     switch (ESP.getResetInfoPtr()->reason)
     {
 
       case REASON_DEFAULT_RST:
-        setLastResult(ResultCodes::ERROR_BOOT_DEFAULT_RST);
+        setLastResult(ResultCodes::BOOT_DEFAULT_RST);
         break;
 
       case REASON_WDT_RST:
-        setLastResult(ResultCodes::ERROR_BOOT_WDT_RST);
+        setLastResult(ResultCodes::BOOT_WDT_RST);
         break;
 
       case REASON_EXCEPTION_RST:
-        setLastResult(ResultCodes::ERROR_BOOT_EXCEPTION_RST);
+        setLastResult(ResultCodes::BOOT_EXCEPTION_RST);
         break;
 
       case REASON_SOFT_WDT_RST:
-        setLastResult(ResultCodes::ERROR_BOOT_SOFT_WDT_RST);
+        setLastResult(ResultCodes::BOOT_SOFT_WDT_RST);
         break;
 
       case REASON_SOFT_RESTART:
-        setLastResult(ResultCodes::ERROR_BOOT_SOFT_RESTART);
+        setLastResult(ResultCodes::BOOT_SOFT_RESTART);
         break;
 
       case REASON_DEEP_SLEEP_AWAKE:
-        setLastResult(ResultCodes::ERROR_BOOT_DEEP_SLEEP_AWAKE);
+        setLastResult(ResultCodes::BOOT_DEEP_SLEEP_AWAKE);
         break;
 
       case REASON_EXT_SYS_RST:
-        setLastResult(ResultCodes::ERROR_BOOT_EXT_SYS_RST);
+        setLastResult(ResultCodes::BOOT_EXT_SYS_RST);
         break;
     }
+#endif
     return getLastResult();
   }
 
