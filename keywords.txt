@@ -5,27 +5,40 @@
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
-gbj_appcore	KEYWORD1
+ResultCodes	KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
-setLastResult	KEYWORD2
-getLastResult	KEYWORD2
+gbj_appcore	KEYWORD2
+roundoff	KEYWORD2
 isSuccess	KEYWORD2
 isError	KEYWORD2
+setLastResult	KEYWORD2
+getLastResult	KEYWORD2
+getResetReason	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 VERSION	LITERAL1
-ResultCodes	LITERAL1
+NA	LITERAL1
 SUCCESS	LITERAL1
 ERROR_UNKNOWN	LITERAL1
 ERROR_NOINIT	LITERAL1
 ERROR_NODEVICE	LITERAL1
+ERROR_PINS	LITERAL1
 ERROR_ADDR	LITERAL1
 ERROR_DATA	LITERAL1
+ERROR_ACK	LITERAL1
 ERROR_CONNECT	LITERAL1
 ERROR_PUBLISH	LITERAL1
 ERROR_SUBSCRIBE	LITERAL1
+BOOT_UNKNOWN	LITERAL1
+BOOT_DEFAULT_RST	LITERAL1
+BOOT_WDT_RST	LITERAL1
+BOOT_EXCEPTION_RST	LITERAL1
+BOOT_SOFT_WDT_RST	LITERAL1
+BOOT_SOFT_RESTART	LITERAL1
+BOOT_DEEP_SLEEP_AWAKE	LITERAL1
+BOOT_EXT_SYS_RST	LITERAL1

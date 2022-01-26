@@ -1,10 +1,20 @@
 <a id="library"></a>
 
 # gbj\_appcore
-This is an application library, which is used usually as a project library for particular PlatformIO project. It provides common core methods for project centric application libraries and acts as their parent class.
+This is an application library, which is used usually as a project library for particular PlatformIO project. It encapsulates common core methods for project centric application libraries and acts as their parent class. The encapsulation provides following advantages:
 
-- Library has no virtual methods, so that it is useful for project libraries without internal timers.
-- Library utilizes error handling from the parent class.
+* Functionality is hidden from the main sketch.
+* The library is reusable for various projects providing basic functionality.
+* Update in library is valid for all involved projects.
+* It provides error handling for all derived classes.
+
+
+## Fundamental functionality
+
+* Unified error handling.
+* Enumerated result and error codes.
+* Detecting microcontroller restart (boot) reason.
+* Rounding float numbers.
 
 
 <a id="dependency"></a>
@@ -30,6 +40,7 @@ This is an application library, which is used usually as a project library for p
 ## Constants
 
 - **gbj\_appcore::VERSION**: Name and semantic version of the library.
+- **gbj\_appcore::NA**: Generic string for `not-applicable` marking.
 
 
 <a id="results"></a>
@@ -40,11 +51,21 @@ This is an application library, which is used usually as a project library for p
 - **gbj\_appcore::ERROR\_UKNOWN**: Unexpected or not recognized error.
 - **gbj\_appcore::ERROR\_NOINIT**: Not initialized yet.
 - **gbj\_appcore::ERROR\_NODEVICE**: No device detected.
+- **ERROR_PINS**: Wrong GPIO assignment.
 - **gbj\_appcore::ERROR\_ADDR**: No or wrong address.
 - **gbj\_appcore::ERROR\_DATA**: Not or wrong data.
+- **ERROR_ACK**: No acknoledgment for a comunicating device.
 - **gbj\_appcore::ERROR\_CONNECT**: Connection failed.
 - **gbj\_appcore::ERROR\_PUBLISH**: Publishing failed.
 - **gbj\_appcore::ERROR\_SUBSCRIBE**: Subsribing failed.
+- **BOOT_UNKNOWN**: Unknown boot reason.
+- **BOOT_DEFAULT_RST**: Normal startup by power on.
+- **BOOT_WDT_RST**: Hardware watch dog reset.
+- **BOOT_EXCEPTION_RST**: Exception reset.
+- **BOOT_SOFT_WDT_RST**: Software watch dog reset.
+- **BOOT_SOFT_RESTART**: Software or system restart.
+- **BOOT_DEEP_SLEEP_AWAKE**: Wake up from deep-sleep.
+- **BOOT_EXT_SYS_RST**: External system reset (by reset pin).
 
 
 <a id="interface"></a>
@@ -55,15 +76,17 @@ This is an application library, which is used usually as a project library for p
 
 ##### Custom data types
 
-* [gbj\_appcore::ResultCodes](#ResultCodes)
+* [ResultCodes](#ResultCodes)
 
 
 ##### Functions
 
 - [**setLastResult()**](#setLastResult)
 - [**getLastResult()**](#getLastResult)
+- [**getResetReason()**](#getResetReason) (valid just for ESP8266, ESP32)
 - [isSuccess()](#isSuccess)
 - [isError()](#isError)
+- [roundoff()](#roundoff)
 
 
 <a id="ResultCodes"></a>
@@ -85,15 +108,16 @@ Enumeration with [result and error codes](#results).
 
 #### Description
 The method sets the internal status of recent processing to input value.
-- Without input parameter the method sets success internal status with result constant [gbj\_appcore::SUCCESS](#results).
+- Without input parameter the method sets success internal status with result constant [SUCCESS](#results).
 
 #### Syntax
     ResultCodes setLastResult(ResultCodes lastResult)
 
 #### Parameters
+
 - **lastResult**: Desired result code that should be set as a last result code.
-  - *Valid values*: Some of [result or error codes](#results).
-  - *Default value*: [gbj\_appcore::SUCCESS](#results)
+  - *Valid values*: some of [result or error codes](#results)
+  - *Default value*: [SUCCESS](#results)
 
 #### Returns
 New (actual) result code of the recent operation.
@@ -126,6 +150,26 @@ Some of [result or error codes](#results).
 [Back to interface](#interface)
 
 
+<a id="getResetReason"></a>
+
+## getResetReason()
+
+#### Description
+The method returns a boot reason of the recent microcontroller from [result codes](#results) begining with _BOOT\__.
+* The method is valid only for microcontrollers ESP5266 and ESP32. For other it returns always unknown boot reason.
+
+#### Syntax
+    ResultCodes getResetReason()
+
+#### Parameters
+None
+
+#### Returns
+Some of [result or error codes](#results) begining with _BOOT\__.
+
+[Back to interface](#interface)
+
+
 <a id="isSuccess"></a>
 
 ## isSuccess()
@@ -134,7 +178,7 @@ Some of [result or error codes](#results).
 The method returns a flag whether the recent operation was successful.
 
 #### Syntax
-    boolean isSuccess()
+    bool isSuccess()
 
 #### Parameters
 None
@@ -156,7 +200,7 @@ Flag about successful processing of the recent operation.
 The method returns a flag whether the recent operation failed. The corresponding error code can be obtained by the method [getLastResult()]((#getLastResult).
 
 #### Syntax
-    boolean isError()
+    bool isError()
 
 #### Parameters
 None
@@ -168,5 +212,32 @@ Flag about failing of the recent operation.
 [getLastResult()](#getLastResult)
 
 [isSuccess()](#isSuccess)
+
+[Back to interface](#interface)
+
+
+<a id="roundoff"></a>
+
+## roundoff()
+
+#### Description
+The method rounds provided rational number to desired decimal places.
+
+#### Syntax
+    float roundoff(float value, byte prec)
+
+#### Parameters
+
+- **value**: A number to be rounded.
+  - *Valid values*: float numbers
+  - *Default value*: none
+
+
+- **prec**: Rounding precision in number of decimal places.
+  - *Valid values*: 0 ~ 255
+  - *Default value*: none
+
+#### Returns
+Rounded rational number to provided number of decimal places.
 
 [Back to interface](#interface)
