@@ -23,9 +23,11 @@
 
 #if defined(__AVR__)
   #include <Arduino.h>
+  #include <avr/pgmspace.h>
   #include <inttypes.h>
 #elif defined(ESP8266) || defined(ESP32)
   #include <Arduino.h>
+  #include <pgmspace.h>
 extern "C"
 {
   #include "user_interface.h"
@@ -65,6 +67,12 @@ public:
     BOOT_EXT_SYS_RST, // External system reset (assertion of reset pin)
   };
 
+  gbj_appcore()
+  {
+    resetReason();
+    setLastResult(ResultCodes::ERROR_NOINIT);
+  }
+
   /*
     Rounding to particular decimal places.
 
@@ -94,67 +102,21 @@ public:
   inline ResultCodes setLastResult(
     ResultCodes lastResult = ResultCodes::SUCCESS)
   {
-    return _lastResult = lastResult;
+    return lastResult_ = lastResult;
   };
 
   // Getters
-  /*
-    Reset reason.
-
-    DESCRIPTION:
-    The method detects recent rebooting reason of the microcontroller.
-
-    PARAMETERS: None
-
-    RETURN: Result code
-  */
-  inline ResultCodes getResetReason()
-  {
-    setLastResult(ResultCodes::BOOT_UNKNOWN);
-#if defined(ESP8266) || defined(ESP32)
-    switch (ESP.getResetInfoPtr()->reason)
-    {
-
-      case REASON_DEFAULT_RST:
-        setLastResult(ResultCodes::BOOT_DEFAULT_RST);
-        break;
-
-      case REASON_WDT_RST:
-        setLastResult(ResultCodes::BOOT_WDT_RST);
-        break;
-
-      case REASON_EXCEPTION_RST:
-        setLastResult(ResultCodes::BOOT_EXCEPTION_RST);
-        break;
-
-      case REASON_SOFT_WDT_RST:
-        setLastResult(ResultCodes::BOOT_SOFT_WDT_RST);
-        break;
-
-      case REASON_SOFT_RESTART:
-        setLastResult(ResultCodes::BOOT_SOFT_RESTART);
-        break;
-
-      case REASON_DEEP_SLEEP_AWAKE:
-        setLastResult(ResultCodes::BOOT_DEEP_SLEEP_AWAKE);
-        break;
-
-      case REASON_EXT_SYS_RST:
-        setLastResult(ResultCodes::BOOT_EXT_SYS_RST);
-        break;
-    }
-#endif
-    return getLastResult();
-  }
-
-  // Getters
-  inline ResultCodes getLastResult() { return _lastResult; };
-  inline bool isSuccess() { return _lastResult == ResultCodes::SUCCESS; };
-  inline bool isError() { return !isSuccess(); };
+  inline ResultCodes getLastResult() { return lastResult_; }
+  inline ResultCodes getResetReason() { return reasonCode_; }
+  inline char *getResetName() { return reasonName_; }
+  inline bool isSuccess() { return lastResult_ == ResultCodes::SUCCESS; }
+  inline bool isError() { return !isSuccess(); }
 
 private:
-  ResultCodes _lastResult =
-    ResultCodes::ERROR_NOINIT; // Result of a recent operation
+  char reasonName_[32];
+  ResultCodes reasonCode_;
+  ResultCodes lastResult_; // Result of a recent operation
+  void resetReason();
 };
 
 #endif

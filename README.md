@@ -22,50 +22,50 @@ This is an application library, which is used usually as a project library for p
 ## Dependency
 
 #### Arduino platform
-- **Arduino.h**: Main include file for the Arduino SDK.
-- **inttypes.h**: Integer type conversions. This header file includes the exact-width integer definitions and extends them with additional facilities provided by the implementation.
+* **Arduino.h**: Main include file for the Arduino SDK.
+* **inttypes.h**: Integer type conversions. This header file includes the exact-width integer definitions and extends them with additional facilities provided by the implementation.
 
 #### Espressif ESP8266 platform
-- **Arduino.h**: Main include file for the Arduino platform.
+* **Arduino.h**: Main include file for the Arduino platform.
 
 #### Espressif ESP32 platform
-- **Arduino.h**: Main include file for the Arduino platform.
+* **Arduino.h**: Main include file for the Arduino platform.
 
 #### Particle platform
-- **Particle.h**: Includes alternative (C++) data type definitions.
+* **Particle.h**: Includes alternative (C++) data type definitions.
 
 
 <a id="constants"></a>
 
 ## Constants
 
-- **gbj\_appcore::VERSION**: Name and semantic version of the library.
-- **gbj\_appcore::NA**: Generic string for `not-applicable` marking.
+* **VERSION**: Name and semantic version of the library.
+* **NA**: Generic string for `not-applicable` marking.
 
 
 <a id="results"></a>
 
 #### Result and error codes
 
-- **gbj\_appcore::SUCCESS**: Result code for successful processing.
-- **gbj\_appcore::ERROR\_UKNOWN**: Unexpected or not recognized error.
-- **gbj\_appcore::ERROR\_NOINIT**: Not initialized yet.
-- **gbj\_appcore::ERROR\_NODEVICE**: No device detected.
-- **ERROR_PINS**: Wrong GPIO assignment.
-- **gbj\_appcore::ERROR\_ADDR**: No or wrong address.
-- **gbj\_appcore::ERROR\_DATA**: Not or wrong data.
-- **ERROR_ACK**: No acknoledgment for a comunicating device.
-- **gbj\_appcore::ERROR\_CONNECT**: Connection failed.
-- **gbj\_appcore::ERROR\_PUBLISH**: Publishing failed.
-- **gbj\_appcore::ERROR\_SUBSCRIBE**: Subsribing failed.
-- **BOOT_UNKNOWN**: Unknown boot reason.
-- **BOOT_DEFAULT_RST**: Normal startup by power on.
-- **BOOT_WDT_RST**: Hardware watch dog reset.
-- **BOOT_EXCEPTION_RST**: Exception reset.
-- **BOOT_SOFT_WDT_RST**: Software watch dog reset.
-- **BOOT_SOFT_RESTART**: Software or system restart.
-- **BOOT_DEEP_SLEEP_AWAKE**: Wake up from deep-sleep.
-- **BOOT_EXT_SYS_RST**: External system reset (by reset pin).
+* **ResultCodes::SUCCESS**: Result code for successful processing.
+* **ResultCodes::ERROR\_UKNOWN**: Unexpected or not recognized error.
+* **ResultCodes::ERROR\_NOINIT**: Not initialized yet.
+* **ResultCodes::ERROR\_NODEVICE**: No device detected.
+* **ResultCodes::ERROR_PINS**: Wrong GPIO assignment.
+* **ResultCodes::ERROR\_ADDR**: No or wrong address.
+* **ResultCodes::ERROR\_DATA**: Not or wrong data.
+* **ResultCodes::ERROR_ACK**: No acknoledgment for a comunicating device.
+* **ResultCodes::ERROR\_CONNECT**: Connection failed.
+* **ResultCodes::ERROR\_PUBLISH**: Publishing failed.
+* **ResultCodes::ERROR\_SUBSCRIBE**: Subsribing failed.
+* **ResultCodes::BOOT\_UNKNOWN**: Unknown boot reason.
+* **ResultCodes::BOOT\_DEFAULT\_RST**: Normal startup by power on.
+* **ResultCodes::BOOT\_WDT\_RST**: Hardware watch dog reset.
+* **ResultCodes::BOOT\_EXCEPTION\_RST**: Exception reset.
+* **ResultCodes::BOOT\_SOFT\_WDT\_RST**: Software watch dog reset.
+* **ResultCodes::BOOT\_SOFT\_RESTART**: Software or system restart.
+* **ResultCodes::BOOT\_DEEP\_SLEEP\_AWAKE**: Wake up from deep-sleep.
+* **ResultCodes::BOOT\_EXT\_SYS\_RST**: External system reset (by reset pin).
 
 
 <a id="interface"></a>
@@ -81,12 +81,14 @@ This is an application library, which is used usually as a project library for p
 
 ##### Functions
 
-- [**setLastResult()**](#setLastResult)
-- [**getLastResult()**](#getLastResult)
-- [**getResetReason()**](#getResetReason) (valid just for ESP8266, ESP32)
-- [isSuccess()](#isSuccess)
-- [isError()](#isError)
-- [roundoff()](#roundoff)
+* [gbj_appcore()](#gbj_appcore)
+* [**setLastResult()**](#setLastResult)
+* [**getLastResult()**](#getLastResult)
+* [**getResetReason()**](#getResetReason) (valid just for ESP8266, ESP32)
+* [getResetName()](#getResetName) (valid just for ESP8266, ESP32)
+* [isSuccess()](#isSuccess)
+* [isError()](#isError)
+* [roundoff()](#roundoff)
 
 
 <a id="ResultCodes"></a>
@@ -102,22 +104,41 @@ Enumeration with [result and error codes](#results).
 [Back to interface](#interface)
 
 
+<a id="gbj_appcore"></a>
+
+## gbj_appcore()
+
+#### Description
+Constructor creates the class instance object, determines microcontroller reset reason, and sets recent result code to [ERROR_NOINIT](#results).
+
+#### Syntax
+    gbj_appcore()
+
+#### Parameters
+None
+
+#### Returns
+Object determining microcontroller reset reason. However, it is not intended to be instantiated as itself, only in form of a child class instance.
+
+[Back to interface](#interface)
+
+
 <a id="setLastResult"></a>
 
 ## setLastResult()
 
 #### Description
 The method sets the internal status of recent processing to input value.
-- Without input parameter the method sets success internal status with result constant [SUCCESS](#results).
+* Without input parameter the method sets success internal status with result constant [SUCCESS](#results).
 
 #### Syntax
     ResultCodes setLastResult(ResultCodes lastResult)
 
 #### Parameters
 
-- **lastResult**: Desired result code that should be set as a last result code.
-  - *Valid values*: some of [result or error codes](#results)
-  - *Default value*: [SUCCESS](#results)
+* **lastResult**: Desired result code that should be set as a last result code.
+  * *Valid values*: some of [result or error codes](#results)
+  * *Default value*: [SUCCESS](#results)
 
 #### Returns
 New (actual) result code of the recent operation.
@@ -155,8 +176,8 @@ Some of [result or error codes](#results).
 ## getResetReason()
 
 #### Description
-The method returns a boot reason of the recent microcontroller from [result codes](#results) begining with _BOOT\__.
-* The method is valid only for microcontrollers ESP5266 and ESP32. For other it returns always unknown boot reason.
+The method returns a boot reason result code of the recent microcontroller restart from [result codes](#results) begining with _BOOT\__.
+* The method is valid only for microcontrollers ESP5266 and ESP32. For others it returns always unknown boot reason.
 
 #### Syntax
     ResultCodes getResetReason()
@@ -166,6 +187,33 @@ None
 
 #### Returns
 Some of [result or error codes](#results) begining with _BOOT\__.
+
+#### See also
+[getResetName()](#getResetName)
+
+[Back to interface](#interface)
+
+
+<a id="getResetName"></a>
+
+## getResetName()
+
+#### Description
+The method returns a pointer to textual name of a boot reason of the recent microcontroller restart.
+* The method is valid only for microcontrollers ESP5266 and ESP32. For others it returns always unknown boot reason name.
+* The boot reason names are equal to corresponding enumeration literals from [result codes](#results) begining with _BOOT\__.
+
+#### Syntax
+    char *getResetName()
+
+#### Parameters
+None
+
+#### Returns
+Pointer to name of a microcontroller reset reason name.
+
+#### See also
+[getResetReason()](#getResetReason)
 
 [Back to interface](#interface)
 
@@ -228,14 +276,14 @@ The method rounds provided rational number to desired decimal places.
 
 #### Parameters
 
-- **value**: A number to be rounded.
-  - *Valid values*: float numbers
-  - *Default value*: none
+* **value**: A number to be rounded.
+  * *Valid values*: float numbers
+  * *Default value*: none
 
 
-- **prec**: Rounding precision in number of decimal places.
-  - *Valid values*: 0 ~ 255
-  - *Default value*: none
+* **prec**: Rounding precision in number of decimal places.
+  * *Valid values*: 0 ~ 255
+  * *Default value*: none
 
 #### Returns
 Rounded rational number to provided number of decimal places.

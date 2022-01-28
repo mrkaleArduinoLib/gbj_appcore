@@ -17,6 +17,7 @@ isError	KEYWORD2
 setLastResult	KEYWORD2
 getLastResult	KEYWORD2
 getResetReason	KEYWORD2
+getResetName	KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
