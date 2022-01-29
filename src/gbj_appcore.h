@@ -44,6 +44,7 @@ public:
   //------------------------------------------------------------------------------
   static const String VERSION;
   static const String NA;
+
   enum ResultCodes : byte
   {
     SUCCESS, // It should be always the first with index 0
@@ -69,7 +70,7 @@ public:
 
   gbj_appcore()
   {
-    resetReason();
+    reason();
     setLastResult(ResultCodes::ERROR_NOINIT);
   }
 
@@ -113,10 +114,10 @@ public:
   inline bool isError() { return !isSuccess(); }
 
 private:
-  char reasonName_[32];
-  ResultCodes reasonCode_;
   ResultCodes lastResult_; // Result of a recent operation
-  void resetReason();
+  static char reasonName_[];  // Boot reason descriptive name
+  static ResultCodes reasonCode_; // Boot reason code
+  static void reason(); // Method for determining boot reason
 };
 
 #endif

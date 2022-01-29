@@ -1,10 +1,15 @@
 #include "gbj_appcore.h"
 const String gbj_appcore::VERSION = "GBJ_APPCORE 1.1.0";
 const String gbj_appcore::NA = "n/a";
+char gbj_appcore::reasonName_[22];
+gbj_appcore::ResultCodes gbj_appcore::reasonCode_ = ResultCodes::BOOT_UNKNOWN;
 
-void gbj_appcore::resetReason()
+void gbj_appcore::reason()
 {
-  reasonCode_ = ResultCodes::BOOT_UNKNOWN;
+  if (strlen(reasonName_))
+  {
+    return;
+  }
   strcpy_P(reasonName_, PSTR("BOOT_UNKNOWN"));
 #if defined(ESP8266) || defined(ESP32)
   switch (ESP.getResetInfoPtr()->reason)
