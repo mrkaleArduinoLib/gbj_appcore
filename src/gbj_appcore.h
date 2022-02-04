@@ -58,14 +58,19 @@ public:
     ERROR_CONNECT, // Connection failed
     ERROR_PUBLISH, // Publishing failed
     ERROR_SUBSCRIBE, // Subsribing failed
-    BOOT_UNKNOWN, // Reset reason not detected or unknown
+  };
+
+  enum BootReasons : byte
+  {
     BOOT_DEFAULT_RST, // Normal startup by power on
     BOOT_WDT_RST, // Hardware watch dog reset
-    BOOT_EXCEPTION_RST, // Exception reset
-    BOOT_SOFT_WDT_RST, // Software watch dog reset
-    BOOT_SOFT_RESTART, // Software restart, system restart
+    BOOT_EXCEPTION_RST, // Exception reset, GPIO status won’t change
+    BOOT_SOFT_WDT_RST, // Software watch dog reset, GPIO status won’t change
+    BOOT_SOFT_RESTART, // Software restart, system restart, GPIO status won’t
+                       // change
     BOOT_DEEP_SLEEP_AWAKE, // Wake up from deep-sleep
     BOOT_EXT_SYS_RST, // External system reset (assertion of reset pin)
+    BOOT_UNKNOWN, //Not detected or unknown
   };
 
   gbj_appcore()
@@ -108,7 +113,7 @@ public:
 
   // Getters
   inline ResultCodes getLastResult() { return lastResult_; }
-  inline ResultCodes getResetReason() { return reasonCode_; }
+  inline BootReasons getResetReason() { return reasonCode_; }
   inline char *getResetName() { return reasonName_; }
   inline bool isSuccess() { return lastResult_ == ResultCodes::SUCCESS; }
   inline bool isError() { return !isSuccess(); }
@@ -116,7 +121,7 @@ public:
 private:
   ResultCodes lastResult_; // Result of a recent operation
   static char reasonName_[];  // Boot reason descriptive name
-  static ResultCodes reasonCode_; // Boot reason code
+  static BootReasons reasonCode_; // Boot reason code
   static void reason(); // Method for determining boot reason
 };
 

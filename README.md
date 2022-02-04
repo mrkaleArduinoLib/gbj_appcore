@@ -46,7 +46,6 @@ This is an application library, which is used usually as a project library for p
 <a id="results"></a>
 
 #### Result and error codes
-
 * **ResultCodes::SUCCESS**: Result code for successful processing.
 * **ResultCodes::ERROR\_UKNOWN**: Unexpected or not recognized error.
 * **ResultCodes::ERROR\_NOINIT**: Not initialized yet.
@@ -58,28 +57,30 @@ This is an application library, which is used usually as a project library for p
 * **ResultCodes::ERROR\_CONNECT**: Connection failed.
 * **ResultCodes::ERROR\_PUBLISH**: Publishing failed.
 * **ResultCodes::ERROR\_SUBSCRIBE**: Subsribing failed.
-* **ResultCodes::BOOT\_UNKNOWN**: Unknown boot reason.
-* **ResultCodes::BOOT\_DEFAULT\_RST**: Normal startup by power on.
-* **ResultCodes::BOOT\_WDT\_RST**: Hardware watch dog reset.
-* **ResultCodes::BOOT\_EXCEPTION\_RST**: Exception reset.
-* **ResultCodes::BOOT\_SOFT\_WDT\_RST**: Software watch dog reset.
-* **ResultCodes::BOOT\_SOFT\_RESTART**: Software or system restart.
-* **ResultCodes::BOOT\_DEEP\_SLEEP\_AWAKE**: Wake up from deep-sleep.
-* **ResultCodes::BOOT\_EXT\_SYS\_RST**: External system reset (by reset pin).
+
+
+<a id="reasons"></a>
+
+#### Boot reason codes
+* **BootReasons::BOOT\_UNKNOWN**: Unknown boot reason.
+* **BootReasons::BOOT\_DEFAULT\_RST**: Normal startup by power on.
+* **BootReasons::BOOT\_WDT\_RST**: Hardware watch dog reset.
+* **BootReasons::BOOT\_EXCEPTION\_RST**: Exception reset.
+* **BootReasons::BOOT\_SOFT\_WDT\_RST**: Software watch dog reset.
+* **BootReasons::BOOT\_SOFT\_RESTART**: Software or system restart.
+* **BootReasons::BOOT\_DEEP\_SLEEP\_AWAKE**: Wake up from deep-sleep.
+* **BootReasons::BOOT\_EXT\_SYS\_RST**: External system reset (by reset pin).
 
 
 <a id="interface"></a>
 
-## Interface
-* The methods in bold return [result or error codes](#results).
 
-
-##### Custom data types
-
+## Custom data types
 * [ResultCodes](#ResultCodes)
+* [BootReasons](#BootReasons)
 
-
-##### Functions
+## Interface
+The methods in bold return [result or error codes](#results).
 
 * [gbj_appcore()](#gbj_appcore)
 * [**setLastResult()**](#setLastResult)
@@ -100,6 +101,19 @@ Enumeration with [result and error codes](#results).
 
 #### Syntax
     ResultCodes::<code_name>
+
+[Back to interface](#interface)
+
+
+<a id="BootReasons"></a>
+
+## BootReasons
+
+#### Description
+Enumeration with [boot reason codes](#reasons).
+
+#### Syntax
+    BootReasons::<code_name>
 
 [Back to interface](#interface)
 
@@ -176,17 +190,17 @@ Some of [result or error codes](#results).
 ## getResetReason()
 
 #### Description
-The method returns a boot reason result code of the recent microcontroller restart from [result codes](#results) begining with _BOOT\__.
+The method returns a boot reason code of the recent microcontroller restart from [boot reason codes](#reasons).
 * The method is valid only for microcontrollers ESP5266 and ESP32. For others it returns always unknown boot reason.
 
 #### Syntax
-    ResultCodes getResetReason()
+    BootReasons getResetReason()
 
 #### Parameters
 None
 
 #### Returns
-Some of [result or error codes](#results) begining with _BOOT\__.
+Some of [boot reason codes](#reasons).
 
 #### See also
 [getResetName()](#getResetName)
@@ -201,7 +215,7 @@ Some of [result or error codes](#results) begining with _BOOT\__.
 #### Description
 The method returns a pointer to textual name of a boot reason of the recent microcontroller restart.
 * The method is valid only for microcontrollers ESP5266 and ESP32. For others it returns always unknown boot reason name.
-* The boot reason names are equal to corresponding enumeration literals from [result codes](#results) begining with _BOOT\__.
+* The boot reason names are equal to corresponding enumeration literals from [boot reason codes](#reasons).
 
 #### Syntax
     char *getResetName()
