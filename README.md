@@ -40,7 +40,6 @@ This is an application library, which is used usually as a project library for p
 ## Constants
 
 * **VERSION**: Name and semantic version of the library.
-* **NA**: Generic string for `not-applicable` marking.
 
 
 <a id="results"></a>

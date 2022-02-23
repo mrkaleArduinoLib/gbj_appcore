@@ -39,11 +39,7 @@ extern "C"
 class gbj_appcore
 {
 public:
-  //------------------------------------------------------------------------------
-  // Public constants
-  //------------------------------------------------------------------------------
-  static const String VERSION;
-  static const String NA;
+  const String VERSION = "GBJ_APPCORE 1.3.0";
 
   enum ResultCodes : byte
   {
@@ -120,9 +116,11 @@ public:
 
 private:
   ResultCodes lastResult_; // Result of a recent operation
-  static char reasonName_[];  // Boot reason descriptive name
+  void reason(); // Method for determining boot reason
+  // Static members for sharing and saving memory across all instances of child
+  // classes.
+  static char reasonName_[]; // Boot reason descriptive name
   static BootReasons reasonCode_; // Boot reason code
-  static void reason(); // Method for determining boot reason
 };
 
 #endif

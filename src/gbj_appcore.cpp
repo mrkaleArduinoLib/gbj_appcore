@@ -1,6 +1,6 @@
 #include "gbj_appcore.h"
-const String gbj_appcore::VERSION = "GBJ_APPCORE 1.2.0";
-const String gbj_appcore::NA = "n/a";
+// Static members for sharing and saving memory across all instances of child
+// classes.
 char gbj_appcore::reasonName_[22];
 gbj_appcore::BootReasons gbj_appcore::reasonCode_ = BootReasons::BOOT_UNKNOWN;
 
