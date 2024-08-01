@@ -39,8 +39,6 @@ extern "C"
 class gbj_appcore
 {
 public:
-  const String VERSION = "GBJ_APPCORE 1.3.0";
-
   enum ResultCodes : byte
   {
     SUCCESS, // It should be always the first with index 0
