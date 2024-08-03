@@ -51,7 +51,8 @@ public:
     ERROR_ACK, // Acknowledge failed
     ERROR_CONNECT, // Connection failed
     ERROR_PUBLISH, // Publishing failed
-    ERROR_SUBSCRIBE, // Subsribing failed
+    ERROR_SUBSCRIBE, // Subscribing failed
+    ERROR_AUTH, // Authorization failed
   };
 
   enum BootReasons : byte
@@ -110,7 +111,12 @@ public:
   inline BootReasons getResetReason() { return reasonCode_; }
   inline char *getResetName() { return reasonName_; }
   inline bool isSuccess() { return lastResult_ == ResultCodes::SUCCESS; }
+  inline bool isSuccess(ResultCodes lastResult)
+  {
+    return lastResult == ResultCodes::SUCCESS;
+  }
   inline bool isError() { return !isSuccess(); }
+  inline bool isError(ResultCodes lastResult) { return !isSuccess(lastResult); }
 
 private:
   ResultCodes lastResult_; // Result of a recent operation

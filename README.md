@@ -56,6 +56,7 @@ This is an application library, which is used usually as a project library for p
 * **ResultCodes::ERROR\_CONNECT**: Connection failed.
 * **ResultCodes::ERROR\_PUBLISH**: Publishing failed.
 * **ResultCodes::ERROR\_SUBSCRIBE**: Subsribing failed.
+* **ResultCodes::ERROR\_AUTH**: Authorization failed.
 
 
 <a id="reasons"></a>
@@ -236,16 +237,21 @@ Pointer to name of a microcontroller reset reason name.
 ## isSuccess()
 
 #### Description
-The method returns a flag whether the recent operation was successful.
+The overloade method returns a flag whether the recent operation was successful or input argument is a success code.
 
 #### Syntax
     bool isSuccess()
+    bool isSuccess(ResultCodes lastResult)
 
 #### Parameters
-None
+
+* **lastResult**: Optional error code as a last result code.
+  * *Valid values*: some of [result or error codes](#results)
+  * *Default value*: none
+
 
 #### Returns
-Flag about successful processing of the recent operation.
+Flag about successful processing of the recent operation or input as a success code.
 
 #### See also
 [isError()](#isError)
@@ -258,16 +264,21 @@ Flag about successful processing of the recent operation.
 ## isError()
 
 #### Description
-The method returns a flag whether the recent operation failed. The corresponding error code can be obtained by the method [getLastResult()]((#getLastResult).
+The method returns a flag whether the recent operation failed or input argument is an error code. The corresponding error code can be obtained by the method [getLastResult()](#getLastResult).
 
 #### Syntax
     bool isError()
+    bool isError(ResultCodes lastResult)
 
 #### Parameters
-None
+
+* **lastResult**: Optional error code as a last result code.
+  * *Valid values*: some of [result or error codes](#results)
+  * *Default value*: none
+
 
 #### Returns
-Flag about failing of the recent operation.
+Flag about failing of the recent operation or input as an error code.
 
 #### See also
 [getLastResult()](#getLastResult)
