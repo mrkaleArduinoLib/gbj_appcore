@@ -25,15 +25,20 @@
   #include <Arduino.h>
   #include <avr/pgmspace.h>
   #include <inttypes.h>
-#elif defined(ESP8266) || defined(ESP32)
+#elif defined(ESP8266)
   #include <Arduino.h>
   #include <pgmspace.h>
 extern "C"
 {
-  #include "user_interface.h"
+  #include <user_interface.h>
 }
-#elif defined(PARTICLE)
-  #include <Particle.h>
+#elif defined(ESP32)
+  #include <Arduino.h>
+  #include <pgmspace.h>
+// extern "C"
+// {
+//   #include <user_interface.h>
+// }
 #endif
 
 class gbj_appcore
@@ -57,15 +62,29 @@ public:
 
   enum BootReasons : byte
   {
+    BOOT_UNKNOWN, // Not detected or unknown
     BOOT_DEFAULT_RST, // Normal startup by power on
     BOOT_WDT_RST, // Hardware watch dog reset
     BOOT_EXCEPTION_RST, // Exception reset, GPIO status won’t change
     BOOT_SOFT_WDT_RST, // Software watch dog reset, GPIO status won’t change
+    BOOT_INT_WDT_RST, // Interrupt watch dog reset
+    BOOT_TASK_WDT_RST, // Task watch dog reset
     BOOT_SOFT_RESTART, // Software restart, system restart, GPIO status won’t
                        // change
     BOOT_DEEP_SLEEP_AWAKE, // Wake up from deep-sleep
     BOOT_EXT_SYS_RST, // External system reset (assertion of reset pin)
-    BOOT_UNKNOWN, //Not detected or unknown
+    BOOT_DEEPSLEEP, // After exiting deep sleep mode
+    BOOT_BROWNOUT, // Brownout reset (software or hardware)
+    BOOT_SDIO, // Reset over SDIO
+    BOOT_WAKEUP_UNDEFINED, // Not caused by exit from deep sleep
+    BOOT_WAKEUP_ALL, // Not a wakeup cause
+    BOOT_WAKEUP_EXT0, // Wakeup caused by external signal using RTC_IO
+    BOOT_WAKEUP_EXT1, // Wakeup caused by external signal using RTC_CNTL
+    BOOT_WAKEUP_TIMER, // Wakeup caused by timer
+    BOOT_WAKEUP_TOUCHPAD, // Wakeup caused by touchpad
+    BOOT_WAKEUP_ULP, // Wakeup caused by ULP program
+    BOOT_WAKEUP_GPIO, // Wakeup caused by GPIO (light sleep only)
+    BOOT_WAKEUP_UART, // Wakeup caused by UART (light sleep only)
   };
 
   gbj_appcore()

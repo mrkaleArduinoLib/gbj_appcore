@@ -23,23 +23,17 @@ This is an application library, which is used usually as a project library for p
 
 #### Arduino platform
 * **Arduino.h**: Main include file for the Arduino SDK.
+* **avr/pgmspace.h**: Processing flashed strings.
 * **inttypes.h**: Integer type conversions. This header file includes the exact-width integer definitions and extends them with additional facilities provided by the implementation.
 
 #### Espressif ESP8266 platform
 * **Arduino.h**: Main include file for the Arduino platform.
+* **pgmspace.h**: Processing flashed strings.
+* **user_interface.h**: Various macros and definitions.
 
 #### Espressif ESP32 platform
 * **Arduino.h**: Main include file for the Arduino platform.
-
-#### Particle platform
-* **Particle.h**: Includes alternative (C++) data type definitions.
-
-
-<a id="constants"></a>
-
-## Constants
-
-* **VERSION**: Name and semantic version of the library.
+* **pgmspace.h**: Processing flashed strings.
 
 
 <a id="results"></a>
@@ -62,18 +56,31 @@ This is an application library, which is used usually as a project library for p
 <a id="reasons"></a>
 
 #### Boot reason codes
-* **BootReasons::BOOT\_UNKNOWN**: Unknown boot reason.
+* **BootReasons::BOOT\_UNKNOWN**: Not detected or unknown.
 * **BootReasons::BOOT\_DEFAULT\_RST**: Normal startup by power on.
 * **BootReasons::BOOT\_WDT\_RST**: Hardware watch dog reset.
-* **BootReasons::BOOT\_EXCEPTION\_RST**: Exception reset.
-* **BootReasons::BOOT\_SOFT\_WDT\_RST**: Software watch dog reset.
-* **BootReasons::BOOT\_SOFT\_RESTART**: Software or system restart.
+* **BootReasons::BOOT\_EXCEPTION\_RST**: Exception reset, GPIO status won’t change.
+* **BootReasons::BOOT\_SOFT\_WDT\_RST**: Software watch dog reset, GPIO status won’t change.
+* **BootReasons::BOOT\_INT\_WDT\_RST**: Interrupt watch dog reset.
+* **BootReasons::BOOT\_TASK\_WDT\_RST**: Task watch dog reset.
+* **BootReasons::BOOT\_SOFT\_RESTART**: Software restart, system restart, GPIO status won’t change.
 * **BootReasons::BOOT\_DEEP\_SLEEP\_AWAKE**: Wake up from deep-sleep.
-* **BootReasons::BOOT\_EXT\_SYS\_RST**: External system reset (by reset pin).
+* **BootReasons::BOOT\_EXT\_SYS\_RST**: External system reset (assertion of reset pin).
+* **BootReasons::BOOT\_DEEPSLEEP**: After exiting deep sleep mode.
+* **BootReasons::BOOT\_BROWNOUT**: Brownout reset (software or hardware).
+* **BootReasons::BOOT\_SDIO**: Reset over SDIO.
+* **BootReasons::BOOT\_WAKEUP\_UNDEFINED**: Not caused by exit from deep sleep.
+* **BootReasons::BOOT\_WAKEUP\_ALL**: Not a wakeup cause.
+* **BootReasons::BOOT\_WAKEUP\_EXT0**: Wakeup caused by external signal using RTC\_IO.
+* **BootReasons::BOOT\_WAKEUP\_EXT1**: Wakeup caused by external signal using RTC\_CNTL.
+* **BootReasons::BOOT\_WAKEUP\_TIMER**: Wakeup caused by timer.
+* **BootReasons::BOOT\_WAKEUP\_TOUCHPAD**: Wakeup caused by touchpad.
+* **BootReasons::BOOT\_WAKEUP\_ULP**: Wakeup caused by ULP program.
+* **BootReasons::BOOT\_WAKEUP\_GPIO**: Wakeup caused by GPIO (light sleep only).
+* **BootReasons::BOOT\_WAKEUP\_UART**: Wakeup caused by UART (light sleep only).
 
 
 <a id="interface"></a>
-
 
 ## Custom data types
 * [ResultCodes](#ResultCodes)
