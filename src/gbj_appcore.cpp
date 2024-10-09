@@ -7,53 +7,49 @@ gbj_appcore::BootReasons gbj_appcore::reasonCode_ = BootReasons::BOOT_UNKNOWN;
 
 void gbj_appcore::result()
 {
-  if (strlen(resultName_))
-  {
-    return;
-  }
   switch (lastResult_)
   {
-    case SUCCESS:
+    case ResultCodes::SUCCESS:
       strcpy_P(resultName_, PSTR("SUCCESS"));
       break;
 
-    case ERROR_NOINIT:
+    case ResultCodes::ERROR_NOINIT:
       strcpy_P(resultName_, PSTR("ERROR_NOINIT"));
       break;
 
-    case ERROR_NODEVICE:
+    case ResultCodes::ERROR_NODEVICE:
       strcpy_P(resultName_, PSTR("ERROR_NODEVICE"));
       break;
 
-    case ERROR_PINS:
+    case ResultCodes::ERROR_PINS:
       strcpy_P(resultName_, PSTR("ERROR_PINS"));
       break;
 
-    case ERROR_ADDR:
+    case ResultCodes::ERROR_ADDR:
       strcpy_P(resultName_, PSTR("ERROR_ADDR"));
       break;
 
-    case ERROR_DATA:
+    case ResultCodes::ERROR_DATA:
       strcpy_P(resultName_, PSTR("ERROR_DATA"));
       break;
 
-    case ERROR_ACK:
+    case ResultCodes::ERROR_ACK:
       strcpy_P(resultName_, PSTR("ERROR_ACK"));
       break;
 
-    case ERROR_CONNECT:
+    case ResultCodes::ERROR_CONNECT:
       strcpy_P(resultName_, PSTR("ERROR_CONNECT"));
       break;
 
-    case ERROR_PUBLISH:
+    case ResultCodes::ERROR_PUBLISH:
       strcpy_P(resultName_, PSTR("ERROR_PUBLISH"));
       break;
 
-    case ERROR_SUBSCRIBE:
+    case ResultCodes::ERROR_SUBSCRIBE:
       strcpy_P(resultName_, PSTR("ERROR_SUBSCRIBE"));
       break;
 
-    case ERROR_AUTH:
+    case ResultCodes::ERROR_AUTH:
       strcpy_P(resultName_, PSTR("ERROR_AUTH"));
       break;
 
@@ -65,7 +61,7 @@ void gbj_appcore::result()
 
 void gbj_appcore::reason()
 {
-  if (strlen(reasonName_))
+  if (strlen(reasonName_) > 0)
   {
     return;
   }

@@ -90,7 +90,7 @@ public:
   gbj_appcore()
   {
     reason();
-    setLastResult(ResultCodes::ERROR_NOINIT);
+    setLastResult(ResultCodes::SUCCESS);
   }
 
   /*

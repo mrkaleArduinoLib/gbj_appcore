@@ -131,7 +131,7 @@ Enumeration with [boot reason codes](#reasons).
 ## gbj_appcore()
 
 #### Description
-Constructor creates the class instance object, determines microcontroller reset reason, and sets recent result code to [ERROR_NOINIT](#results).
+Constructor creates the class instance object, determines microcontroller reset reason, and sets recent result code to [SUCCESS](#results).
 
 #### Syntax
     gbj_appcore()
