@@ -1,8 +1,67 @@
 #include "gbj_appcore.h"
 // Static members for sharing and saving memory across all instances of child
 // classes.
+char gbj_appcore::resultName_[30];
 char gbj_appcore::reasonName_[30];
 gbj_appcore::BootReasons gbj_appcore::reasonCode_ = BootReasons::BOOT_UNKNOWN;
+
+void gbj_appcore::result()
+{
+  if (strlen(resultName_))
+  {
+    return;
+  }
+  switch (lastResult_)
+  {
+    case SUCCESS:
+      strcpy_P(resultName_, PSTR("SUCCESS"));
+      break;
+
+    case ERROR_NOINIT:
+      strcpy_P(resultName_, PSTR("ERROR_NOINIT"));
+      break;
+
+    case ERROR_NODEVICE:
+      strcpy_P(resultName_, PSTR("ERROR_NODEVICE"));
+      break;
+
+    case ERROR_PINS:
+      strcpy_P(resultName_, PSTR("ERROR_PINS"));
+      break;
+
+    case ERROR_ADDR:
+      strcpy_P(resultName_, PSTR("ERROR_ADDR"));
+      break;
+
+    case ERROR_DATA:
+      strcpy_P(resultName_, PSTR("ERROR_DATA"));
+      break;
+
+    case ERROR_ACK:
+      strcpy_P(resultName_, PSTR("ERROR_ACK"));
+      break;
+
+    case ERROR_CONNECT:
+      strcpy_P(resultName_, PSTR("ERROR_CONNECT"));
+      break;
+
+    case ERROR_PUBLISH:
+      strcpy_P(resultName_, PSTR("ERROR_PUBLISH"));
+      break;
+
+    case ERROR_SUBSCRIBE:
+      strcpy_P(resultName_, PSTR("ERROR_SUBSCRIBE"));
+      break;
+
+    case ERROR_AUTH:
+      strcpy_P(resultName_, PSTR("ERROR_AUTH"));
+      break;
+
+    default:
+      strcpy_P(resultName_, PSTR("ERROR_UNKNOWN"));
+      break;
+  }
+}
 
 void gbj_appcore::reason()
 {
@@ -10,7 +69,6 @@ void gbj_appcore::reason()
   {
     return;
   }
-  strcpy_P(reasonName_, PSTR("BOOT_UNKNOWN"));
 #if defined(ESP8266) || defined(ARDUINO_ARCH_ESP8266)
   rst_info *resetInfo;
   resetInfo = ESP.getResetInfoPtr();

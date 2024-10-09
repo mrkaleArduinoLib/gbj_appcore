@@ -122,12 +122,15 @@ public:
   inline ResultCodes setLastResult(
     ResultCodes lastResult = ResultCodes::SUCCESS)
   {
-    return lastResult_ = lastResult;
+    lastResult_ = lastResult;
+    result();
+    return lastResult_;
   };
 
   // Getters
   inline ResultCodes getLastResult() { return lastResult_; }
   inline BootReasons getResetReason() { return reasonCode_; }
+  inline char *getResultName() { return resultName_; }
   inline char *getResetName() { return reasonName_; }
   inline bool isSuccess() { return lastResult_ == ResultCodes::SUCCESS; }
   inline bool isSuccess(ResultCodes lastResult)
@@ -139,9 +142,11 @@ public:
 
 private:
   ResultCodes lastResult_; // Result of a recent operation
-  void reason(); // Method for determining boot reason
+  void result(); // Method for determining result name
+  void reason(); // Method for determining boot reason and its name
   // Static members for sharing and saving memory across all instances of child
   // classes.
+  static char resultName_[]; // Result descriptive name
   static char reasonName_[]; // Boot reason descriptive name
   static BootReasons reasonCode_; // Boot reason code
 };

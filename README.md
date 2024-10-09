@@ -93,6 +93,7 @@ The methods in bold return [result or error codes](#results).
 * [**setLastResult()**](#setLastResult)
 * [**getLastResult()**](#getLastResult)
 * [**getResetReason()**](#getResetReason) (valid just for ESP8266, ESP32)
+* [getResultName()](#getResultName)
 * [getResetName()](#getResetName) (valid just for ESP8266, ESP32)
 * [isSuccess()](#isSuccess)
 * [isError()](#isError)
@@ -211,6 +212,29 @@ Some of [boot reason codes](#reasons).
 
 #### See also
 [getResetName()](#getResetName)
+
+[Back to interface](#interface)
+
+
+<a id="getResultName"></a>
+
+## getResultName()
+
+#### Description
+The method returns a pointer to textual name of last result of a recent operation.
+* The result names are equal to corresponding enumeration literals from [result or error codes](#results).
+
+#### Syntax
+    char *getResultName()
+
+#### Parameters
+None
+
+#### Returns
+Pointer to name of a recent operation.
+
+#### See also
+[getLastResult()](#getLastResult)
 
 [Back to interface](#interface)
 
