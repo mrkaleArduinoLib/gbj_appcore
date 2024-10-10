@@ -1,7 +1,6 @@
 #include "gbj_appcore.h"
 // Static members for sharing and saving memory across all instances of child
 // classes.
-char gbj_appcore::resultName_[30];
 char gbj_appcore::reasonName_[30];
 gbj_appcore::BootReasons gbj_appcore::reasonCode_ = BootReasons::BOOT_UNKNOWN;
 

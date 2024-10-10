@@ -14,6 +14,7 @@ This is an application library, which is used usually as a project library for p
 * Unified error handling.
 * Enumerated result and error codes.
 * Detecting microcontroller restart (boot) reason.
+* Registering HTTP response codes and texts.
 * Rounding float numbers.
 
 
@@ -87,12 +88,14 @@ This is an application library, which is used usually as a project library for p
 * [BootReasons](#BootReasons)
 
 ## Interface
-The methods in bold return [result or error codes](#results).
-
 * [gbj_appcore()](#gbj_appcore)
-* [**setLastResult()**](#setLastResult)
-* [**getLastResult()**](#getLastResult)
-* [**getResetReason()**](#getResetReason) (valid just for ESP8266, ESP32)
+* [setLastResult()](#setLastResult)
+* [getLastResult()](#getLastResult)
+* [setLastHttpCode()](#setLastHttp)
+* [setLastHttpText()](#setLastHttp)
+* [getLastHttpCode()](#getLastHttp)
+* [getLastHttpText()](#getLastHttp)
+* [getResetReason()](#getResetReason) (valid just for ESP8266, ESP32)
 * [getResultName()](#getResultName)
 * [getResetName()](#getResetName) (valid just for ESP8266, ESP32)
 * [isSuccess()](#isSuccess)
@@ -189,6 +192,64 @@ Some of [result or error codes](#results).
 
 #### See also
 [setLastResult()](#setLastResult)
+
+[Back to interface](#interface)
+
+
+<a id="setLastHttp"></a>
+
+## setLastHttpCode(), setLastHttpText()
+
+#### Description
+The particular method registers the <abbr title='HyperText Transfer Protocol'>HTTP</abbr> response code and related text to the object for later utilization.
+* Without input HTTP code argument the method sets neutral HTTP response code.
+* Without input HTTP text argument the method sets empty HTTP response text.
+
+#### Syntax
+    int setLastHttpCode(int lastHttpCode)
+    String setLastHttpCode(String lastHttpText)
+
+#### Parameters
+* **lastHttpCode**: Recent HTTP response code.
+  * *Valid values*: -32628 ~ 32628
+  * *Default value*: 0
+
+* **lastHttpText**: Description of recent HTTP response code.
+  * *Valid values*: String
+  * *Default value*: empty string
+
+#### Returns
+The value of the just put input argument.
+
+#### See also
+[getLastHttpCode()](#getLastHttp)
+
+[getLastHttpText()](#getLastHttp)
+
+[Back to interface](#interface)
+
+
+<a id="getLastHttp"></a>
+
+## getLastHttpCode(), getLastHttpText()
+
+#### Description
+The method returns recent HTTP response code and its related text, if any.
+
+#### Syntax
+    int getLastHttpCode()
+    String getLastHttpCode()
+
+#### Parameters
+None
+
+#### Returns
+The value of the recently registered HTTP response code and its related description.
+
+#### See also
+[setLastHttpCode()](#setLastHttp)
+
+[setLastHttpText()](#setLastHttp)
 
 [Back to interface](#interface)
 

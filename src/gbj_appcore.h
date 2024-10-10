@@ -114,7 +114,11 @@ public:
   */
   inline float roundoff(float value, byte prec)
   {
+#if defined(ESP8266) || defined(ESP32)
+    float pow_10 = pow10(prec);
+#else
     float pow_10 = pow(10.0f, (float)prec);
+#endif
     return round(value * pow_10) / pow_10;
   }
 
@@ -126,10 +130,22 @@ public:
     result();
     return lastResult_;
   };
+  inline int setLastHttpCode(int lastHttpCode = 0)
+  {
+    lastHttpCode_ = lastHttpCode;
+    return lastHttpCode_;
+  };
+  inline String setLastHttpText(String lastHttpText = "")
+  {
+    lastHttpText_ = lastHttpText;
+    return lastHttpText_;
+  };
 
   // Getters
   inline ResultCodes getLastResult() { return lastResult_; }
   inline BootReasons getResetReason() { return reasonCode_; }
+  inline int getLastHttpCode() { return lastHttpCode_; }
+  inline String getLastHttpText() { return lastHttpText_; }
   inline char *getResultName() { return resultName_; }
   inline char *getResetName() { return reasonName_; }
   inline bool isSuccess() { return lastResult_ == ResultCodes::SUCCESS; }
@@ -142,11 +158,13 @@ public:
 
 private:
   ResultCodes lastResult_; // Result of a recent operation
+  int lastHttpCode_;
+  String lastHttpText_; // HTTP error code description
+  char resultName_[20]; // Result descriptive name
   void result(); // Method for determining result name
   void reason(); // Method for determining boot reason and its name
   // Static members for sharing and saving memory across all instances of child
   // classes.
-  static char resultName_[]; // Result descriptive name
   static char reasonName_[]; // Boot reason descriptive name
   static BootReasons reasonCode_; // Boot reason code
 };
