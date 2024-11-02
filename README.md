@@ -37,6 +37,8 @@ This is an application library, which is used usually as a project library for p
 * **pgmspace.h**: Processing flashed strings.
 
 
+## Custom enumerations
+
 <a id="results"></a>
 
 #### Result and error codes
