@@ -58,6 +58,7 @@ public:
     ERROR_PUBLISH, // Publishing failed
     ERROR_SUBSCRIBE, // Subscribing failed
     ERROR_AUTH, // Authorization failed
+    ERROR_WIFI, // No WiFi connection available
   };
 
   enum BootReasons : byte
@@ -123,6 +124,8 @@ public:
   }
 
   // Setters
+
+  // Cache input result code or set SUCCESS by default
   inline ResultCodes setLastResult(
     ResultCodes lastResult = ResultCodes::SUCCESS)
   {
@@ -130,11 +133,15 @@ public:
     result();
     return lastResult_;
   };
+
+  // Cache HTTP status code of a recent HTTP request
   inline int setLastHttpCode(int lastHttpCode = 0)
   {
     lastHttpCode_ = lastHttpCode;
     return lastHttpCode_;
   };
+
+  // Cache HTTP status text of a recent HTTP request
   inline String setLastHttpText(String lastHttpText = "")
   {
     lastHttpText_ = lastHttpText;
@@ -142,18 +149,38 @@ public:
   };
 
   // Getters
+
+  // Return result code of a recent operation
   inline ResultCodes getLastResult() { return lastResult_; }
+
+  // Return reason code of a recent boot
   inline BootReasons getResetReason() { return reasonCode_; }
+
+  // Return HTTP status code of a recent HTTP request
   inline int getLastHttpCode() { return lastHttpCode_; }
+
+  // Return HTTP status message of a recent HTTP request
   inline String getLastHttpText() { return lastHttpText_; }
+
+  // Return name of a recent operation
   inline char *getResultName() { return resultName_; }
+
+  // Return name of a MCU reset reason
   inline char *getResetName() { return reasonName_; }
+
+  // Return flag about success of a recent operation
   inline bool isSuccess() { return lastResult_ == ResultCodes::SUCCESS; }
+
+  // Return flag about success of an input result code
   inline bool isSuccess(ResultCodes lastResult)
   {
     return lastResult == ResultCodes::SUCCESS;
   }
+
+  // Return flag about error of a recent operation
   inline bool isError() { return !isSuccess(); }
+
+  // Return flag about error of an input result code
   inline bool isError(ResultCodes lastResult) { return !isSuccess(lastResult); }
 
 private:

@@ -52,6 +52,10 @@ void gbj_appcore::result()
       strcpy_P(resultName_, PSTR("ERROR_AUTH"));
       break;
 
+    case ResultCodes::ERROR_WIFI:
+      strcpy_P(resultName_, PSTR("ERROR_WIFI"));
+      break;
+
     default:
       strcpy_P(resultName_, PSTR("ERROR_UNKNOWN"));
       break;
